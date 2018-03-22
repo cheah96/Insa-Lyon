@@ -1,0 +1,62 @@
+B 3128 Valentin RIGOLLE, Stanley CHEAH 
+
+1. toutes les capitales :
+//capital[text() != ""]
+capital	Oranjestad
+
+2.les noms communs des pays :
+//name/common
+common	Aruba
+
+3.les éléments ayant exactement un attribut :
+//*[count(attribute::*) = 1]
+native_name	
+
+4.les noms officiels des pays en français, pour ceux qui en ont :
+//native_name[@lang = 'fra']/official
+official	Territoire des Terres australes et antarctiques françaises
+
+5.les deuxièmes noms natives officiels des pays :
+//native_name[2]/official
+official	Aruba
+
+6.la somme des superficies (area) des pays d'Europe :
+sum(//country[infosRegion/region = 'Europe']/area)
+2.302289746e7
+
+7.les pays qui n'ont pas de nom natif :
+//country[count(name/native_name) = 0]
+country	
+
+8.les pays dont le nom commun n'est pas contenu dans leur nom officiel :
+//country[contains(name/official,name/common) = false()]
+country	
+
+9.les noms officiels des pays ayant plus de 8 voisins (borders) :
+//country[count(borders) > 8]/name/official
+official	Federative Republic of Brazil
+
+10.La position de la France dans le document XML :
+count(//country[name/common = 'France']/preceding-sibling::country)+1
+75.0
+
+11.les noms officiels des pays fédéraux 
+//country[contains(name/official, "Federal")]/name/official :
+official	Federal Republic of Germany
+
+12.les langues des noms natifs des pays sans doublons :
+//native_name/@lang[not(preceding::native_name/@lang=.)]
+lang	nld
+
+---
+
+Modifications de la DTD :
+
+infosRegion* -> infosRegion
+tld+ -> tld*
+
+(éventuellement)
+languages+ -> languages
+coordinates* -> coordinates?
+region* -> region
+subregion* -> subregion?
